@@ -1,7 +1,7 @@
 require_relative './dictionary'
 module TweetSec
+  include TweetSec::Dictionary
   class TweetSec
-
     attr_reader :password, :character_counts, :password_strength
 
     def initialize(password)

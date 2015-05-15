@@ -1,5 +1,5 @@
 require_relative '../../../module/tweet_sec'
-
+require 'pry'
 include TweetSec
 
 describe 'TweetSec::Dictionary' do

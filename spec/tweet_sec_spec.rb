@@ -46,5 +46,14 @@ describe 'TweetSec' do
       end
     end
   end
+
+  describe '#suggest_alternative' do
+    describe 'fewest space characters' do
+      it 'test' do
+        res = suggest_alternative('test test123')
+        binding.pry
+      end
+    end
+  end
 end
 
