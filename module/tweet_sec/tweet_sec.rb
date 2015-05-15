@@ -6,8 +6,7 @@ module TweetSec
 
     def initialize(password)
       @password = password.dup
-      @character_counts = {letter_count: 0, number_count: 0, space_count: 0
-      }
+      @character_counts = {letter_count: 0, number_count: 0, space_count: 0}
     end
 
     def formatted_password

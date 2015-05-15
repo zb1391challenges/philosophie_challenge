@@ -54,7 +54,7 @@ module TweetSec
 
     def replace_char_sequence(to_replace)
       replaced = to_replace.dup
-      replaced[replaced.length/2] = replacement
+      replaced[replaced.length/2] = @min_type == :letter_count ? REPLACEMENT_OPTIONS[:number_count][:replacement] : replacement
       @password.sub!(to_replace,replaced)
     end
   end

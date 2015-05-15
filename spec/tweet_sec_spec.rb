@@ -50,8 +50,8 @@ describe 'TweetSec' do
   describe '#suggest_alternative' do
     describe 'fewest space characters' do
       it 'test' do
-        res = suggest_alternative('test test123')
-        binding.pry
+        res = suggest_alternative('s0_0per 5nak3')
+        expect(res).to eq("s0_0p r 5nak3")
       end
     end
   end
