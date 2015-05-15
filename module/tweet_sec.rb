@@ -1,9 +1,13 @@
 module TweetSec
+
   def evaluate!(password)
     TweetSec.new(password).evaluate
   end
 
   class TweetSec
+
+    DICTIONARY_PATH = File.expand_path("en.txt")
+
     attr_reader :password, :character_counts, :password_strength
 
     def initialize(password)
@@ -43,9 +47,18 @@ module TweetSec
     end
 
     def replace_words_with_single_letter
-      password.gsub(/([a-zA-Z]{2,})/,random_letter)
+      res = password
+      password.scan(/[a-zA-Z]{2,}/).each do |match|
+        res.sub!("#{match}",random_letter) if english_word?(match)
+      end
+      res
     end
 
+    def english_word?(word)
+      open(DICTIONARY_PATH) do |f|
+        f.grep(/^#{word}$/).any?
+      end
+    end
 
   end
 end
