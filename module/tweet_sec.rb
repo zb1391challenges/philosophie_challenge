@@ -1,10 +1,10 @@
 module TweetSec
-  def evaluate(password)
-    TweetSec.new(password)
+  def evaluate!(password)
+    TweetSec.new(password).evaluate
   end
 
   class TweetSec
-    attr_reader :password, :character_counts
+    attr_reader :password, :character_counts, :password_strength
 
     def initialize(password)
       @password = password
@@ -16,6 +16,9 @@ module TweetSec
     end
 
     def evaluate
+      get_character_counts
+      @character_counts.select!{|key,value| value > 0}
+      @password_strength = formatted_password.length*@character_counts.keys.count
     end
 
     private

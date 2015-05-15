@@ -4,9 +4,23 @@ require 'pry'
 include TweetSec
 
 describe 'TweetSec' do
-  describe 'evaluate' do
-    it 'returns a TweetSec object' do
-      expect((evaluate('')).class).to eq(TweetSec::TweetSec)
+  describe 'evaluate!' do
+    describe 'password is password1' do
+      it 'returns 4' do
+        expect(evaluate!('password1')).to eq(4)
+      end
+    end
+    
+    describe 'password is goat m4n' do
+      it 'returns 4' do
+        expect(evaluate!('goat m4n')).to eq(15)
+      end
+    end
+    
+    describe 'password is s0_0per 5nak3' do
+      it 'returns 52' do
+        expect(evaluate!('s0_0per 5nak3')).to eq(52)
+      end
     end
   end
 end
@@ -39,7 +53,7 @@ describe 'TweetSec::TweetSec' do
   end
 
   describe '#get_character_counts' do
-    describe 'uses a combination of all types' do
+    describe 'password uses a combination of all types' do
       let(:tweet_sec) {TweetSec::TweetSec.new("_he11o 12E_")}
 
       before do
@@ -61,6 +75,76 @@ describe 'TweetSec::TweetSec' do
       it 'sets special_count to 2' do
         expect(tweet_sec.character_counts[:special_count]).to eq(2)
       end
+    end
+  end
+
+  describe '#evaluate' do
+    describe 'password is only special characters' do
+      let(:tweet_sec) {TweetSec::TweetSec.new("&!_")}
+
+      before do
+        tweet_sec.evaluate
+      end
+
+      it 'removes space_count from the character_counts hash' do
+        expect(tweet_sec.character_counts[:space_count]).to eq(nil)
+      end
+
+      it 'removes letter_count from the character counts hash' do
+        expect(tweet_sec.character_counts[:letter_count]).to eq(nil)
+      end
+
+      it 'removes number_count from the character counts hash' do
+        expect(tweet_sec.character_counts[:number_count]).to eq(nil)
+      end
+    end
+
+    describe 'password does not have special characters' do
+      let(:tweet_sec) {TweetSec::TweetSec.new("hello123")}
+
+      before do
+        tweet_sec.evaluate
+      end
+
+      it 'removes special_count from the character_counts hash' do
+        expect(tweet_sec.character_counts[:special_count]).to eq(nil)
+      end
+    end
+
+    describe 'password is password1' do
+      let(:tweet_sec) {TweetSec::TweetSec.new("password1")}
+
+      before do
+        tweet_sec.evaluate
+      end
+
+      it 'sets the password_strength to 4' do
+        expect(tweet_sec.password_strength).to eq(4)
+      end      
+    end
+
+    describe 'password is goat m4n' do
+      let(:tweet_sec) {TweetSec::TweetSec.new("goat m4n")}
+
+      before do
+        tweet_sec.evaluate
+      end
+
+      it 'sets the password_strength to 15' do
+        expect(tweet_sec.password_strength).to eq(15)
+      end      
+    end
+
+    describe 'password is s0_0per 5nak3' do
+      let(:tweet_sec) {TweetSec::TweetSec.new("s0_0per 5nak3")}
+
+      before do
+        tweet_sec.evaluate
+      end
+
+      it 'sets the password_strength to 52' do
+        expect(tweet_sec.password_strength).to eq(52)
+      end      
     end
   end
 end
