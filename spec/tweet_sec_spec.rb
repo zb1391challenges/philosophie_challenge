@@ -18,17 +18,121 @@ describe 'TweetSec::TweetSec' do
     it 'stores the password' do
       expect(tweet_sec.password).to eq('test')
     end
+
+    it 'initializes character_counts' do
+      expect(tweet_sec.character_counts[:letter_count]).to eq(0)
+      expect(tweet_sec.character_counts[:number_count]).to eq(0)
+      expect(tweet_sec.character_counts[:space_count]).to eq(0)
+    end
   end
 
-  describe 'replace_words_with_single_letter' do
+  describe '#replace_words_with_single_letter' do
     it "replaces 'password' with a single letter" do
       tweet_sec = TweetSec::TweetSec.new('password')
-      expect(tweet_sec.replace_words_with_single_letter.length).to eq(1)
+      expect(tweet_sec.send(:replace_words_with_single_letter).length).to eq(1)
     end
 
     it 'replaces every sequence of 2 or more chars with a single letter' do
       tweet_sec = TweetSec::TweetSec.new('pass word password')
-      expect(tweet_sec.replace_words_with_single_letter.length).to eq(5)
+      expect(tweet_sec.send(:replace_words_with_single_letter).length).to eq(5)
+    end
+  end
+
+  describe '#get_character_counts' do
+    describe 'only letters' do
+      let(:tweet_sec) {TweetSec::TweetSec.new('test')}
+
+      before do
+        tweet_sec.send(:get_character_counts)
+      end
+
+      it 'sets letter_count to 1' do
+        expect(tweet_sec.character_counts[:letter_count]).to eq(1)
+      end
+
+      it 'sets number_count to 0' do
+        expect(tweet_sec.character_counts[:number_count]).to eq(0)
+      end
+
+      it 'sets space_count to 0' do
+        expect(tweet_sec.character_counts[:space_count]).to eq(0)
+      end
+
+      it 'sets special_count to 0' do
+        expect(tweet_sec.character_counts[:special_count]).to eq(0)
+      end
+    end
+
+    describe 'only numbers' do
+      let(:tweet_sec) {TweetSec::TweetSec.new('12345')}
+
+      before do
+        tweet_sec.send(:get_character_counts)
+      end
+      
+      it 'sets letter_count to 0' do
+        expect(tweet_sec.character_counts[:letter_count]).to eq(0)
+      end
+
+      it 'sets number_count to 5' do
+        expect(tweet_sec.character_counts[:number_count]).to eq(5)
+      end
+
+      it 'sets space_count to 0' do
+        expect(tweet_sec.character_counts[:space_count]).to eq(0)
+      end
+
+      it 'sets special_count to 0' do
+        expect(tweet_sec.character_counts[:special_count]).to eq(0)
+      end
+    end
+
+    describe 'only spaces' do
+      let(:tweet_sec) {TweetSec::TweetSec.new(" \t")}
+
+      before do
+        tweet_sec.send(:get_character_counts)
+      end
+      
+      it 'sets letter_count to 0' do
+        expect(tweet_sec.character_counts[:letter_count]).to eq(0)
+      end
+
+      it 'sets number_count to 0' do
+        expect(tweet_sec.character_counts[:number_count]).to eq(0)
+      end
+
+      it 'sets space_count to 0' do
+        expect(tweet_sec.character_counts[:space_count]).to eq(2)
+      end
+
+      it 'sets special_count to 0' do
+        expect(tweet_sec.character_counts[:special_count]).to eq(0)
+      end
+    end
+
+    describe 'uses a combination of all types' do
+      let(:tweet_sec) {TweetSec::TweetSec.new("_he11o 12E_")}
+
+      before do
+        tweet_sec.send(:get_character_counts)
+      end
+      
+      it 'sets letter_count to 3' do
+        expect(tweet_sec.character_counts[:letter_count]).to eq(3)
+      end
+
+      it 'sets number_count to 4' do
+        expect(tweet_sec.character_counts[:number_count]).to eq(4)
+      end
+
+      it 'sets space_count to 1' do
+        expect(tweet_sec.character_counts[:space_count]).to eq(1)
+      end
+
+      it 'sets special_count to 2' do
+        expect(tweet_sec.character_counts[:special_count]).to eq(2)
+      end
     end
   end
 end
