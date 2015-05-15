@@ -5,8 +5,9 @@ module TweetSec
     attr_reader :password, :character_counts, :password_strength
 
     def initialize(password)
-      @password = password
-      @character_counts = {letter_count: 0, number_count: 0, space_count: 0}
+      @password = password.dup
+      @character_counts = {letter_count: 0, number_count: 0, space_count: 0
+      }
     end
 
     def formatted_password
@@ -18,8 +19,6 @@ module TweetSec
       @character_counts.select!{|key,value| value > 0}
       @password_strength = formatted_password.length*@character_counts.keys.count
     end
-
-    private
     
     def get_character_counts
       @character_counts[:letter_count]  = character_count(/[a-zA-Z]/)
@@ -27,6 +26,8 @@ module TweetSec
       @character_counts[:space_count]   = character_count(/\s/)
       @character_counts[:special_count] = formatted_password.length - character_sum
     end
+   
+    private
 
     def character_sum
       @character_counts.values.inject{|sum, val| sum+val}

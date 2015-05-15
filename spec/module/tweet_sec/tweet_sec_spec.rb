@@ -35,7 +35,7 @@ describe 'TweetSec::TweetSec' do
       let(:tweet_sec) {TweetSec::TweetSec.new("_he11o 12E_")}
 
       before do
-        tweet_sec.send(:get_character_counts)
+        tweet_sec.get_character_counts
       end
       
       it 'sets letter_count to 3' do
