@@ -19,7 +19,7 @@ describe 'TweetSec' do
     
     describe 'password is s0_0per 5nak3' do
       it 'returns 52' do
-        expect(evaluate!('s0_0per 5nak3')).to eq('strong')
+        expect(evaluate!('s0_0per 5nak3')).to eq('weak')
       end
     end
   end
@@ -51,7 +51,7 @@ describe 'TweetSec' do
     describe 'fewest space characters' do
       it 'test' do
         res = suggest_alternative('s0_0per 5nak3')
-        expect(res).to eq("s0_0p r 5nak3")
+        expect(res).to eq("s0_0p3r 5nak3")
       end
     end
   end

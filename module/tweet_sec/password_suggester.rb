@@ -53,9 +53,17 @@ module TweetSec
     private 
 
     def replace_char_sequence(to_replace)
-      replaced = to_replace.dup
-      replaced[replaced.length/2] = @min_type == :letter_count ? REPLACEMENT_OPTIONS[:number_count][:replacement] : replacement
-      @password.sub!(to_replace,replaced)
+      vowel_stripped_word = find_and_replace_vowels(to_replace)
+      @password.sub!(to_replace,vowel_stripped_word)
     end
+
+    def find_and_replace_vowels(word)
+      word.gsub(/[aeiou]/){|vowel| vowel_replacements[vowel.downcase]}
+    end
+
+    def vowel_replacements
+      @vowel_replacements ||= {'a' => '@', 'e' => '3', 'i' => '!', 'o' => '0', 'u' => '^'}
+    end
+
   end
 end

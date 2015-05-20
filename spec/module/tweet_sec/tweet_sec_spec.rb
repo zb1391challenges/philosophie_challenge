@@ -16,6 +16,8 @@ describe 'TweetSec::TweetSec' do
       expect(tweet_sec.character_counts[:number_count]).to eq(0)
       expect(tweet_sec.character_counts[:space_count]).to eq(0)
     end
+
+
   end
 
   describe '#replace_words_with_single_letter' do
@@ -121,7 +123,7 @@ describe 'TweetSec::TweetSec' do
       end
 
       it 'sets the password_strength to 52' do
-        expect(tweet_sec.password_strength).to eq(52)
+        expect(tweet_sec.password_strength).to eq(44)
       end      
     end
   end
